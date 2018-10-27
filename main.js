@@ -15,17 +15,33 @@ var todoList = [
 //render the abstraction
 
 function renderTodoList(list) {
-    list.map(function(item) {
-        return`
+    var todo = list.map(function(item) {
+       return `
         <li>${item.text}</li>
         `
     });
+    return todo.join("");
 }
 
 //as soon as page loads, show list to screen
 document.getElementById("todo-list-container").innerHTML = renderTodoList(todoList);
 
 //when user adds item to the list
-function addTodo() {
-
+function addTodo(item) {
+    todoList.push(item);
 }
+
+//every time they add an item update the array of todo items, then the render
+//function will do the rest!
+
+document.getElementById("todoInput").addEventListener("change", function(){
+    var enteredText = this.value;
+    var newTodo = {
+        text: enteredText
+    }
+
+    //trigger the action of adding a new todo item
+    addTodo(newTodo);
+    document.getElementById("todo-list-container").innerHTML = renderTodoList(todoList);
+    this.value = "";
+});
